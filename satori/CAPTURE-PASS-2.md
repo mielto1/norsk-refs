@@ -61,14 +61,19 @@ ABBREVIATION and STRUCTURAL BREAKDOWN are all in use in the free content.
 
 ## Explicit gaps - things not done or not determined
 
-1. **Mobile (390 x 844) was deliberately skipped**, by instruction. Nothing in
-   this pass is mobile. So `shots/mobile-*.png`,
-   `computed-styles-mobile-light.json` and `-dark.json` do not exist yet, and the
-   mobile questions (where the audio bar sits, whether the popup becomes a bottom
-   sheet, mobile body text metrics, mobile tap sizes) are all still open. One
-   thing that is already known from the stylesheet: below 1024px the desktop
-   audio bar element is `display: none`, so mobile uses a different player,
-   `#nav-mobile #nav-mobile-audio-player-container .audio-controls`.
+1. **Mobile was deferred in this pass and captured afterwards** - see
+   `mobile-notes.md`, `computed-styles-mobile-dark.json`,
+   `computed-styles-mobile-light.json` and `shots/mobile-*.png`. The four mobile
+   questions are answered there: the audio bar is absorbed into the fixed
+   full-bleed `#nav-mobile` bar (the desktop
+   `.article-viewer-audio-controls-large-container` goes `display: none`); the
+   popup is **not** a bottom sheet, it stays an absolutely positioned in-flow
+   panel anchored under the tapped line and spanning the column; body type does
+   not shrink (24px / 60px, column 465 instead of 870, 10px gutters); and the
+   per-sentence controls stay inline at their desktop size, 32 x 41 and
+   30 x 38.5. Residual gap: that capture ran at **500 x 751**, not the requested
+   390 x 844, because window resizing was unavailable - structure is right,
+   pixel values are for a 500px viewport.
 2. **frontend.css was not saved verbatim.** Reasons and the workaround are in
    `states/README.md`. `states/frontend-css-extract.css` covers the selectors
    that matter.
