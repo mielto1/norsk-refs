@@ -1,0 +1,968 @@
+/* ============================================================================
+ * SATORI READER - frontend.css EXTRACT
+ * reader words / annotation underlines / per-sentence glyphs / annotation
+ * popup / article audio bar
+ *
+ * Source:  https://web.cdn.satorireader.com/css/v1.0.9699.26209/frontend.css
+ * Captured: 2026-08-02, capture pass 2
+ * Read at:  1920x889 viewport (irrelevant for the file itself, recorded for
+ *           consistency with the rest of this directory)
+ *
+ * PROVENANCE / HONESTY NOTES - please read before trusting this file:
+ *
+ * 1. This is NOT the whole stylesheet. The upstream file reads as 155,130
+ *    characters / 6,357 lines. It was not copied verbatim in this pass; see
+ *    satori/states/README.md for why.
+ * 2. Selectors, property names and property values below are transcribed
+ *    exactly as they appear upstream. Leading indentation inside rule blocks
+ *    was lost in transit and has been re-applied as two spaces, so this file
+ *    is value-accurate but not byte-identical.
+ * 3. Rules whose selectors are scoped to review cards / flashcards, the mobile
+ *    nav, the studylist UI, the proofing UI and the series (multi-episode)
+ *    audio presenter were left out.
+ * 4. The two blocks ".japanese-mincho ..." and ".japanese-gothic ..." are
+ *    omitted: their font-family lists contain Japanese font names which came
+ *    through the transcription pipeline as mojibake and could not be
+ *    reproduced reliably. ".japanese-classic" (MS Mincho) is the family the
+ *    reader actually renders with on this account and is included.
+ * 5. @media blocks are gathered in a single appendix at the end rather than
+ *    left in source order.
+ * ==========================================================================*/
+
+/* ---------------------------------------------------------------------------
+ * WORDS, FURIGANA PARTS, ANNOTATION UNDERLINES, HOVER / SELECTED
+ * -------------------------------------------------------------------------*/
+
+/* These are the baseline styles for any annotated article.
+   By design, they do not contain any sizing information.
+   Any particular instance of a sentence should add overrides (e.g., ".article-body .word") in an appropriate way.
+*/
+.japanese-classic.sample,
+.japanese-classic .article,
+.japanese-classic .article .tooltip .article {
+  font-family: 'MS Mincho';
+}
+
+/* Word, which can contain multiple word-parts. */
+.word {
+  display: inline;
+}
+
+/* Word part (A word has multiple parts where it alternates between kanji and kana sections) */
+.wp {
+  display: inline-block;
+  text-align: center;
+}
+
+.wp.hf {
+  display: inline-block;
+  line-height: normal;
+}
+
+.wp.nf {
+  display: inline;
+}
+
+/* Never show the reading for a word-part that does not have furigana */
+.wp.nf .wpr {
+  display: none;
+}
+
+/* Always show the text inline for a word-part that does not have furigana */
+.wp.nf .wpt {
+  display: inline;
+}
+
+/* Furigana */
+.fg {
+  display: block;
+  text-align: center;
+  margin: 0px;
+  padding: 0px;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Word-part text (standard representation, may or may not include kanji) */
+.wpt {
+  display: block;
+  text-align: center;
+}
+
+/* Word-part reading (always present, regardless of kanji) */
+.wpr {
+  display: block;
+  text-align: center;
+}
+
+/* Non-word, e.g. punctuation */
+.nw {
+  line-height: normal;
+  display: inline;
+}
+
+.fg-hover-overlay {
+  display: block !important;
+  position: absolute;
+  margin: 0 !important;
+  transform: translate(-50%, calc(-100% - 2px));
+  /* center horizontally, lift just above the glyph */
+  z-index: 100;
+  pointer-events: none;
+  background-color: #f6f6f6;
+  color: black;
+  padding: 1px 3px;
+  border-radius: 2px;
+  line-height: 1.1;
+  white-space: nowrap;
+}
+
+.article-standard > .article > .paragraph.headline .word {
+  border-bottom: solid 5px transparent;
+  padding-bottom: 5px;
+}
+
+.article-standard > .article > .paragraph.headline .word.highlight {
+  background-color: #fdc388;
+  padding: 10px 0;
+}
+
+.article-standard > .article > .paragraph.headline .word.additional-notes-special {
+  border-bottom: solid 2px #cccccc;
+}
+
+.article-standard > .article > .paragraph.headline .word.additional-notes {
+  border-bottom: dotted 2px #cccccc;
+}
+
+.article-standard > .article > .paragraph.headline .word:hover {
+  border-bottom: solid 5px #bee0f1;
+}
+
+.article-standard > .article > .paragraph.headline .fg {
+  font-size: 14px;
+  line-height: 14px;
+  padding-bottom: 4px;
+  margin-top: -18px;
+}
+
+.article-standard > .article > .paragraph.headline .wpt {
+  font-size: 36px;
+  line-height: 36px;
+}
+
+.article-standard > .article > .paragraph.headline .wpr {
+  font-size: 36px;
+  line-height: 36px;
+}
+
+.article-standard > .article > .paragraph.headline .nw {
+  font-size: 36px;
+  line-height: 36px;
+}
+
+.article-standard > .article > .paragraph.blurb .word {
+  border-bottom: solid 5px transparent;
+  padding-bottom: 3px;
+}
+
+.article-standard > .article > .paragraph.blurb .word.additional-notes-special {
+  border-bottom: solid 2px #cccccc;
+}
+
+.article-standard > .article > .paragraph.blurb .word.additional-notes {
+  border-bottom: dotted 2px #cccccc;
+}
+
+.article-standard > .article > .paragraph.blurb .word:hover {
+  border-bottom: solid 5px #bee0f1;
+}
+
+.article-standard > .article > .paragraph.blurb .fg {
+  font-size: 14px;
+  line-height: 14px;
+  padding-bottom: 2px;
+  margin-top: -16px;
+}
+
+.article-standard > .article > .paragraph.blurb .wpt {
+  font-size: 24px;
+  line-height: 24px;
+  font-weight: bold;
+}
+
+.article-standard > .article > .paragraph.body .word {
+  border-bottom: solid 5px transparent;
+  padding-bottom: 3px;
+}
+
+.article-standard > .article > .paragraph.body .word.highlight {
+  background-color: #fdc388;
+  padding: 10px 0;
+}
+
+.article-standard > .article > .paragraph.body .word.additional-notes-special {
+  border-bottom: solid 2px #cccccc;
+}
+
+.article-standard > .article > .paragraph.body .word.additional-notes {
+  border-bottom: dotted 2px #cccccc;
+}
+
+.article-standard > .article > .paragraph.body .word:hover {
+  border-bottom: solid 5px #bee0f1;
+}
+
+.article-standard > .article > .paragraph.body .fg {
+  font-size: 14px;
+  line-height: 14px;
+  padding-bottom: 2px;
+  margin-top: -16px;
+}
+
+.article-standard > .article > .paragraph.body .wpt {
+  font-size: 24px;
+  line-height: 24px;
+}
+
+.article-standard > .article > .paragraph.body .wpr {
+  font-size: 24px;
+  line-height: 24px;
+}
+
+.article-standard > .article > .paragraph.body .nw {
+  font-size: 24px;
+  line-height: 24px;
+}
+
+/* --------------------------------------------------------------------------------------*/
+/* Styles for when words/sentences are selected for tooltip */
+/* --------------------------------------------------------------------------------------*/
+.article-standard .paragraph.headline .word.word-selected {
+  border-bottom: solid 5px #bee0f1 !important;
+  background-color: #f6f6f6;
+  color: dodgerblue;
+}
+
+.article-standard .paragraph.body .word.word-selected {
+  border-bottom: solid 5px #bee0f1 !important;
+  background-color: #ffffff;
+  color: #31708F;
+}
+
+.article-standard .paragraph.body .word.additional-notes.tooltip-alignment-border {
+  border-width: 5px;
+}
+
+body.theme-dark .article-standard > .article > .paragraph.headline .word.word-selected {
+  background-color: #202225;
+  color: #02cca7;
+  border-color: #02cca7 !important;
+}
+
+body.theme-dark .article-standard > .article > .paragraph.body .word.word-selected {
+  background-color: #2c2e33;
+  color: #1e90ff;
+  border-color: #1e90ff !important;
+}
+
+body.theme-dark .fg-hover-overlay {
+  background-color: rgba(40, 40, 40, 0.9);
+  color: #fff;
+}
+
+/* ---------------------------------------------------------------------------
+ * PER-SENTENCE PLAY BUTTON AND TRANSLATION ("NOTES") GLYPH
+ * The play glyph sits before the sentence, the translation glyph after it.
+ * Both are background-image sprites swapped on :hover; there is no dark-theme
+ * override for either.
+ * -------------------------------------------------------------------------*/
+
+.sentence .play-button-container {
+  display: inline-block;
+}
+
+.sentence .play-button-container .play-button {
+  color: transparent;
+  display: inline;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  cursor: pointer;
+  opacity: 1;
+}
+
+.sentence .play-button-container .play-button:hover {
+  opacity: 1;
+}
+
+.sentence .notes-button-container {
+  display: inline-block;
+}
+
+.sentence .notes-button {
+  color: transparent;
+  display: inline;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: 50% 60%;
+  cursor: pointer;
+  opacity: 0.9;
+}
+
+.sentence .notes-button:hover {
+  opacity: 1;
+}
+
+.play-button-standard {
+  background-image: url(/images/play-sentence-off.png);
+}
+
+.play-button-standard:hover {
+  background-image: url(/images/play-sentence-on.png);
+}
+
+.notes-button-standard {
+  background-image: url(/images/sentence-notes-off.png);
+}
+
+.notes-button-standard:hover {
+  background-image: url(/images/sentence-notes-on.png);
+}
+
+/* Colour variants exist for both glyphs: -yellow, -blue, -green, -red, plus
+   -not-accessible and -cloud for the play button. Each follows exactly the
+   pattern above (foo-off.png resting, foo-on.png on hover), and there are
+   matching "always on" classes .play-button-on / .sentence-notes-button-on
+   etc. Omitted here for brevity; the standard pair is what the reader uses. */
+
+.article-standard > .article > .paragraph.headline .sentence .play-button-container {
+  padding: 0px 10px 0px 0px;
+  font-size: 32px;
+}
+
+.article-standard > .article > .paragraph.headline .sentence .play-button-container .play-button {
+  background-size: contain;
+}
+
+.article-standard > .article > .paragraph.headline .sentence .notes-button-container {
+  padding: 0px 0px 0px 10px;
+}
+
+.article-standard > .article > .paragraph.headline .sentence .notes-button-container .notes-button {
+  background-size: contain;
+  font-size: 30px;
+}
+
+.article-standard > .article > .paragraph.blurb .sentence .play-button-container {
+  padding: 0px 8px 0px 0px;
+}
+
+.article-standard > .article > .paragraph.body .sentence .play-button-container {
+  padding: 0px 8px 0px 0px;
+}
+
+/* ---------------------------------------------------------------------------
+ * ANNOTATION POPUP (tooltip, caption bar, note body, example blocks)
+ * -------------------------------------------------------------------------*/
+
+.expression {
+  display: inline;
+}
+
+.example-sentence {
+  display: block;
+  background-color: #f0f0f0;
+  border-left: solid 4px #cccccc;
+  padding-top: 6px;
+  padding-left: 12px;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+.example-sentence + .example-sentence {
+  margin-top: 20px;
+}
+
+.example-sentence .english {
+  display: inline-block;
+  font-size: 14px;
+  border-top: dotted 1px #cccccc;
+  padding-top: 10px;
+}
+
+.example-sentence .japanese .paragraph.body .word {
+  font-size: 20px;
+  margin-top: 0;
+}
+
+.example-sentence .japanese .paragraph.body .fg {
+  font-size: 12px;
+  line-height: 12px;
+  margin-top: 0;
+  padding-bottom: 4px;
+}
+
+.example-sentence .japanese .paragraph.body .wpt {
+  font-size: 20px;
+  line-height: 20px;
+}
+
+.example-sentence .japanese .paragraph.body .wpr {
+  font-size: 20px;
+  line-height: 20px;
+}
+
+.example-sentence .japanese .paragraph.body .nw {
+  font-size: 20px;
+  line-height: 20px;
+}
+
+.example-sentence .japanese .bold .wpt {
+  font-weight: bold;
+}
+
+/* Tooltip */
+.tooltip {
+  display: none;
+  position: absolute;
+  z-index: 1;
+  top: 0px;
+  left: 0px;
+  background-color: #f9f9f9;
+  box-shadow: 5px 5px 3px #999;
+  border: solid 2px #909497;
+  text-align: left;
+  font-family: 'Roboto', sans-serif;
+}
+
+.tooltip-content {
+  display: block;
+  padding: 1px 1px 0px 1px;
+  color: #444444;
+}
+
+.tooltip-close {
+  display: block;
+  float: right;
+  font-size: 13px;
+  padding: 3px 6px 6px 6px;
+  cursor: pointer;
+  color: #ffffff;
+}
+
+.tooltip-content .heading {
+  display: block;
+  font-weight: normal;
+  text-transform: uppercase;
+  font-size: 13px;
+  color: #ffffff;
+  padding: 2px 10px;
+  background-color: #ff9300;
+}
+
+.tooltip-content .note-body {
+  display: block;
+  padding: 10px 10px 10px 10px;
+}
+
+.tooltip-content .expression {
+  display: block;
+  color: #000000;
+}
+
+.tooltip-content .sense {
+  display: block;
+}
+
+.tooltip-content .sense.context {
+  font-weight: normal;
+}
+
+.tooltip-content .sense.non-context {
+  color: #777777;
+}
+
+.tooltip-content .sentence-form {
+  display: block;
+}
+
+.tooltip-content .discussion {
+  display: block;
+}
+
+.tooltip-content .kanji-kana-representation-message {
+  font-size: 13px;
+  display: block;
+}
+
+.tooltip-content .kanji-kana-representation-message a {
+  color: dodgerblue;
+}
+
+.tooltip-content .expression + span,
+.tooltip-content .expression + .sentence-form,
+.tooltip-content .expression + .sense,
+.tooltip-content .expression + .discussion {
+  margin-top: 0px;
+}
+
+.tooltip-content span + .sense {
+  margin-top: 0;
+}
+
+.tooltip-content span + .sentence-form {
+  margin-top: 10px;
+}
+
+.tooltip-content span + .tooltip-button {
+  margin-top: 10px;
+}
+
+.tooltip-content span + .discussion {
+  margin-top: 10px;
+}
+
+.tooltip-content .kanji-kana-representation-message + span {
+  margin-top: 2px;
+}
+
+.tooltip-content .sentence-form + .discussion {
+  margin-top: 5px;
+}
+
+.tooltip-content .discussion .p {
+  display: block;
+  margin-bottom: 20px;
+}
+
+.tooltip-content .discussion .p:last-child {
+  margin-bottom: 0;
+}
+
+.tooltip-button {
+  display: inline-block;
+  padding: 6px 16px 6px 10px;
+  border: solid 1px #0077ea;
+  border-radius: 2px;
+  margin-bottom: 0px;
+  margin-right: 10px;
+}
+
+.tooltip-button[disabled] {
+  pointer-events: none;
+}
+
+.tooltip-button.tooltip-button-active {
+  cursor: pointer;
+  background-color: dodgerblue;
+  color: #ffffff;
+}
+
+.tooltip-button.tooltip-button-inactive {
+  cursor: default;
+  background-color: #cccccc;
+  color: #444444;
+  border: solid 1px #aaaaaa;
+}
+
+.tooltip-button.tooltip-button-delete {
+  cursor: pointer;
+  background-color: #cc2222;
+  color: white;
+  border: solid 1px #a01b1b;
+  align-items: center;
+  vertical-align: top;
+  gap: 4px;
+}
+
+.tooltip-icon {
+  float: left;
+  background-size: 100% 100%;
+}
+
+.tooltip-icon-add {
+  background-image: url(/images/studylist-add.png);
+  height: 14px;
+  width: 14px;
+  margin: 4px 0px 0px 0px;
+}
+
+.tooltip-content .tooltip-button .text {
+  margin: 0px 0px 0px 10px;
+  font-family: Roboto;
+  font-size: 14px;
+}
+
+.tooltip-content .footer {
+  display: block;
+  margin-bottom: 1px;
+  height: 5px;
+  background-color: #dddddd;
+}
+
+.tooltip-content .article {
+  margin-right: 20px;
+  /* Prevent overlap with "close" button */
+}
+
+.tooltip-content .paragraph.body {
+  margin-bottom: 0px;
+}
+
+.tooltip-content .paragraph.body .sentence {
+  line-height: 40px;
+  padding-bottom: 0px;
+  margin-bottom: 0px;
+}
+
+.tooltip-content .paragraph.body .word {
+  padding-bottom: 0px;
+  line-height: 1.25;
+  border-color: transparent;
+  border-bottom: none;
+}
+
+.tooltip-content .paragraph.body .word:hover {
+  border-color: transparent;
+  border-bottom: none;
+}
+
+.tooltip-content .paragraph.body .word {
+  font-size: 24px;
+  margin-top: 0;
+}
+
+.tooltip-content .paragraph.body .fg {
+  font-size: 14px;
+  line-height: 14px;
+  margin-top: 0;
+  padding-bottom: 4px;
+}
+
+.tooltip-content .paragraph.body .wpt {
+  font-size: 24px;
+  line-height: 24px;
+}
+
+.tooltip-content .paragraph.body .nw {
+  font-size: 24px;
+  line-height: 24px;
+}
+
+body.theme-dark .tooltip {
+  border: solid 2px #333333;
+  background-color: #666666;
+  box-shadow: 5px 5px 3px #121212;
+}
+
+body.theme-dark .tooltip .footer {
+  background-color: #666666;
+}
+
+body.theme-dark .tooltip .note-body {
+  background-color: #2c2e33;
+}
+
+body.theme-dark .tooltip .note-body .example-sentence {
+  background-color: #444444;
+  border-left: solid 4px #999999;
+}
+
+body.theme-dark .tooltip .expression {
+  color: rgba(255, 255, 255, 0.93);
+}
+
+body.theme-dark .tooltip .sense {
+  color: rgba(204, 204, 204, 0.87);
+}
+
+body.theme-dark .tooltip .sense.context {
+  color: rgba(255, 255, 255, 0.87);
+}
+
+body.theme-dark .tooltip .discussion {
+  color: rgba(255, 255, 255, 0.87);
+}
+
+body.theme-dark .tooltip .sentence-form {
+  color: rgba(255, 255, 255, 0.87);
+}
+
+/* ---------------------------------------------------------------------------
+ * ARTICLE AUDIO BAR
+ * Note the base rule hides it; the @media appendix below is what makes it
+ * visible and what constrains it to the article column on desktop.
+ * -------------------------------------------------------------------------*/
+
+.article-viewer-audio-controls-large-container {
+  display: none;
+}
+
+.article-viewer-audio-controls-large-container .audio-controls-spacer {
+  background-color: #eeeeee;
+  height: 0;
+  height: env(safe-area-inset-bottom);
+}
+
+.audio-controls {
+  width: 100%;
+  background-color: #888888;
+  border: none;
+}
+
+.audio-controls .primary-controls {
+  display: table;
+  width: 100%;
+}
+
+.audio-controls .primary-controls .play-pause-button {
+  display: table-cell;
+  padding: 0 40px 0 0;
+  background-size: 20px 20px;
+  background-repeat: no-repeat;
+  background-position: 8px center;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.audio-controls .primary-controls .play-pause-button.play {
+  background-image: url('/images/audio-player-play.png');
+}
+
+.audio-controls .primary-controls .play-pause-button.pause {
+  background-image: url('/images/audio-player-pause.png');
+}
+
+.audio-controls .primary-controls .speed-control-container {
+  display: table-cell;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  padding-right: 10px;
+}
+
+.audio-controls .primary-controls .speed-control-container .speed-control {
+  display: table;
+  font-size: 13px;
+  color: white;
+}
+
+.audio-controls .primary-controls .speed-control-container .speed-control .indicator {
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+}
+
+.audio-controls .primary-controls .speed-control-container .speed-control .indicator .bar {
+  height: 2px;
+  background-color: white;
+  margin-bottom: 3px;
+}
+
+.audio-controls .primary-controls .speed-control-container .speed-control .indicator .bar.on {
+  width: 8px;
+}
+
+.audio-controls .primary-controls .speed-control-container .speed-control .indicator .bar.off {
+  width: 4px;
+  margin-left: 2px;
+  margin-right: 2px;
+  opacity: 0.8;
+}
+
+.audio-controls .primary-controls .speed-control-container .speed-control .indicator .bar:last-child {
+  margin-bottom: 0;
+}
+
+.audio-controls .primary-controls .speed-control-container .speed-control .text {
+  display: table-cell;
+  vertical-align: middle;
+  padding-left: 4px;
+}
+
+.audio-controls .primary-controls .timeline-container {
+  display: table-cell;
+  width: 100%;
+  padding: 20px 10px 20px 0;
+}
+
+.audio-controls .primary-controls .timeline-container .timeline {
+  display: block;
+  height: 10px;
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.3);
+  position: relative;
+}
+
+.audio-controls .primary-controls .timeline-container .playhead {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  margin-top: -2px;
+  background: #ffffff;
+}
+
+.audio-controls .primary-controls .timeline-container .playhead::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+}
+
+.audio-controls .primary-controls .auto-scroll-button {
+  display: table-cell;
+  vertical-align: middle;
+  padding: 0 15px;
+  background-image: url("/images/autoscroll-icon.png");
+  background-size: 22px 22px;
+  background-repeat: no-repeat;
+  background-position: center 16px;
+  cursor: pointer;
+  opacity: 0.45;
+}
+
+.audio-controls .primary-controls .auto-scroll-button.on {
+  opacity: 1;
+}
+
+.audio-controls .primary-controls .auto-scroll-button.off {
+  opacity: 0.45;
+}
+
+.audio-controls .primary-controls .download-link {
+  display: table-cell;
+  padding: 0 45px 0 0;
+  background-image: url("/images/download-audio-on.png");
+  background-size: 26px 26px;
+  background-repeat: no-repeat;
+  background-position: 10px center;
+  cursor: pointer;
+}
+
+.audio-controls .primary-controls .download-link:hover {
+  background-image: url("/images/download-audio-on.png");
+  background-color: #ff9300;
+}
+
+.audio-controls .primary-controls .download-link-text {
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+  display: none;
+}
+
+.audio-controls .secondary-controls {
+  text-align: center;
+  background-color: #555555;
+}
+
+.audio-controls .secondary-controls .secondary-button {
+  display: inline-block;
+  cursor: pointer;
+  width: 50px;
+  height: 50px;
+  background-size: 26px 26px;
+  margin: 0 5px;
+  background-repeat: no-repeat;
+  background-position: 50% 55%;
+}
+
+.audio-controls-spacer {
+  height: 0;
+}
+
+body.theme-dark #audio-controls-large {
+  background-color: #444444;
+}
+
+body.theme-dark #audio-controls-large .timeline {
+  background-color: rgba(0, 0, 0, 0.25);
+}
+
+/* ---------------------------------------------------------------------------
+ * APPENDIX: @media blocks touching any of the above
+ * -------------------------------------------------------------------------*/
+
+@media (min-width: 1024px) {
+  .article-viewer-audio-controls-large-container {
+    display: block;
+    position: relative;
+  }
+}
+
+@media (min-width: 1024px) {
+  .article-viewer-audio-controls-large-container.stuck {
+    position: fixed;
+    left: 40px;
+    right: 290px;
+    bottom: 0;
+  }
+}
+
+@media (min-width: 1200px) {
+  .article-viewer-audio-controls-large-container.stuck {
+    position: fixed;
+    left: initial;
+    right: initial;
+    bottom: 0;
+    margin: 0 auto;
+    width: 870px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .audio-controls .primary-controls .speed-control-container {
+    padding-right: 15px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .audio-controls .primary-controls .timeline-container {
+    padding: 20px 20px 20px 0;
+  }
+}
+
+@media (min-width: 1024px) {
+  .audio-controls .primary-controls .auto-scroll-button {
+    padding: 0 48px 0 0;
+    background-position: 17px 16px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .audio-controls .primary-controls .download-link {
+    padding: 0 15px 0 45px;
+    background-position: 12px center;
+    border-left: solid 1px #cccccc;
+  }
+}
+
+@media (min-width: 1024px) {
+  .audio-controls .primary-controls .download-link-text {
+    display: inline-block;
+  }
+}
+
+@media (min-width: 1024px) {
+  .audio-controls .secondary-controls .secondary-button {
+    width: 60px;
+    height: 60px;
+    background-size: 30px 30px;
+    margin: 0px 20px;
+  }
+}
+
+@media (max-width: 400px) {
+  .tooltip-button {
+    display: table;
+  }
+}
